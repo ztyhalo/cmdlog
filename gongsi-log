@@ -1,0 +1,348 @@
+1.查看fb fixbit
+cat /sys/class/graphics/fb1/bits_per_pixel
+
+setenv pridis "video=mxcfb0:dev=ldb,if=RGB24,fbpix=RGB32"
+setenv secdis "video=mxcfb1:dev=ldb,if=RGB24,fbpix=RGB32"
+本机内核构建
+export ARCH=arm
+export CROSS_COMPILE=/home/z/zty/a9/kernel/gcc/linux-x86/arm/gcc-linaro-7.5.0-arm-linux-gnueabi/bin/arm-linux-gnueabi-
+
+添加gcc5
+
+deb https://mirrors.aliyun.com/ubuntu/ xenial main universe
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 5 --slave /usr/bin/g++ g++ /usr/bin/g++-5 
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 11 --slave /usr/bin/g++ g++ /usr/bin/g++-11
+
+MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-fb -e fb
+
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 27
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 31
+
+sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' lib/*.c
+echo "#define _IO_IN_BACKUP 0x100" >> lib/stdio-impl.h
+
+
+Richard Tollerton
+7/07/15   #25363   
+Message-ID: <87wpycy88v.fsf@...>
+MIME-Version: 1.0
+Content-Type: text/plain
+--text follows this line--
+The build of cross-localedef-native is observed to fail under gcc5 hosts
+with multiple definition errors, e.g.:
+
+argp-help.o: In function `argp_fmtstream_write':
+argp-help.c:(.text+0x1da0): multiple definition of `argp_fmtstream_write'
+argp-fmtstream.o:argp-fmtstream.c:(.text+0x7a0): first defined here
+
+The problem is the change of the default C standard from gnu89 to gnu11
+which changes the semantics of 'inline'. The issue is described in the
+Porting guide at https://gcc.gnu.org/gcc-5/porting_to.html. Adding the
+'-fgnu89-inline' option fixes the issue.
+
+(This fix, including the above explanation, was shamelessly copied from
+http://git.vahanus.net/?p=csc/ptxdist-kp.git;a=commit;h=2f04a3587bd33c74ccc9be6e115a8b1fde620841.)
+
+Signed-off-by: Richard Tollerton <rich.tollerton@...>
+---
+ meta/recipes-core/glibc/cross-localedef-native_2.20.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
+index ccf56a9..38f2af4 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
+@@ -39,7 +39,7 @@ SRCREV_localedef = "c833367348d39dad7ba018990bfdaffaec8e9ed3"
+ S = "${WORKDIR}/git"
+ 
+ EXTRA_OECONF = "--with-glibc=${S}"
+-CFLAGS += "-DNOT_IN_libc=1"
++CFLAGS += "-DNOT_IN_libc=1 -fgnu89-inline"
+ 
+ do_configure () {
+ 	${S}/localedef/configure ${EXTRA_OECONF}
+ 	
+ opensll
+ $openssl" x509 $hashopt -fingerprint -noout -in "$fname" -passin pass:'\n	
+ 
+ subversion错误
+ swig.m4 159行后三行删除
+ CPPFLAGS="$SVN_PYCFMT_SAVE_CPPFLAGS"
+ 
+ BUILD_LDFLAGS_prepend_pn-qemu-native = "-Wl,-rpath-link,/lib/x86_64-linux-gnu "
+ 
+ libgpg-error-1.33
+ 找到libgpg-error-1.33编译包的位置，并分别找到这几个文件：
+libgpg-error-1.33/lang/cl/mkerrcodes.awk
+libgpg-error-1.33/src/mkerrcodes.awk
+libgpg-error-1.33/src/mkerrcodes1.awk
+libgpg-error-1.33/src/mkerrcodes2.awk
+libgpg-error-1.33/src/mkerrnos.awk
+libgpg-error-1.33/src/mkstrtable.awk
+并分别打开找到如下代码：
+
+!header {
+  sub (/\#.+/, "");
+1
+2
+将上诉所有文件中的所有"sub (/#.+/, “”);"，改为：“sub (/#.+/, “”);”，也就是说最新的gawk能够识别到’#'号不需要使用转义字符（‘\‘）的帮助
+
+最后找到，如下几个文件：
+libgpg-error-1.33/src/Makefile
+libgpg-error-1.33/src/Makefile.am
+libgpg-error-1.33/src/Makefile.in
+libgpg-error-1.33/src/mkstrtable.awk
+namespace 替换为pkg_namespace
+qemu-native
+typedef struct ucontext
+{
+        unsigned long int uc_flags;
+        struct ucontext *uc_link;
+        __sigset_t uc_sigmask;
+        stack_t uc_stack;
+        mcontext_t uc_mcontext;
+        long int uc_filler[5];
+};
+gettid()修改为
+sys_gettid();
+ 
+#ifdef TARGET_NR_stime /* not on alpha */
+       case TARGET_NR_stime:
+             {
+                  time_t host_time;
+                  if (get_user_sal(host_time, argl))
+                       return -TARGET_EFAULT;
+                struct timespec res;
+                res.tv_sec = host_time;
+                return get_errno(clock_settime(CLOCK_REALTIME, &res));
+             }
+#endif
+
+            struct timespec res;
+            res.tv_sec = host_time;
+            ret = get_errno(clock_settime(CLOCK_REALTIME, &res));
+            
+文件系统：
+bitbake -c compile -f u-boot-imx; bitbake -f u-boot-imx
+新h264解码
+ffplay -rtsp_transport tcp rtsp://192.168.168.168/0
+ffplay -rtsp_transport tcp rtsp://192.168.2.230:554/main
+gst-launch-1.0 rtspsrc location=rtsp://192.168.2.230:554/main latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+gst-launch-1.0 rtspsrc location=rtsp://192.168.168.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+
+老的
+ Stream #0:0: Video: h264 (High), yuv420p(tv, bt709, progressive), 1920x1080, 30 fps, 29.97 tbr, 90k tbn, 60 tbc
+  Stream #0:1: Audio: aac (LC), 48000 Hz, stereo, fltp
+   3.12 A-V: -0.422 fd=   0 aq=   55KB vq=  197KB sq=    0B f=1/1   
+新的h264解码
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: h264 (Main), yuvj420p(pc, bt709, progressive), 1920x1080, 59.94 tbr, 90k tbn, 180k tbc
+  Stream #0:1: Audio: aac (LC), 48000 Hz, stereo, fltp
+  
+  bear 使用
+  bear -- make zImage  -j8
+  bear --library /usr/lib/x86_64-linux-gnu/bear/libexec.so -- make zImage -j12
+  glibc版本很
+  strings /opt/poky/1.7/sysroots/x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/../../../lib/libc.so.6 | grep ^GLIBC
+  
+   bear -l /usr/lib/x86_64-linux-gnu/bear/libear.so make zImage -j8
+   
+   bear -l /usr/lib/x86_64-linux-gnu/bear/libear.so make ARCH=arm CROSS_CMOPILE=arm-linux-gnueabi- zImage  -j 32
+
+--compile-commands-dir=${workspaceFolder}
+--background-index
+--completion-style=detailed
+--header-insertion=never
+-log=info
+
+vnc设置密码
+ /opt/x11vnc -storepasswd
+ 
+/proc/config.gz
+
+gst-launch-1.0  filesrc location=/opt/Airplay.264 ! h264parse ! vpudec  ! overlaysink sync=false async=false
+gst-launch-1.0 playbin uri=file:///opt/Airplay.264
+
+gst-launch-1.0 -v rtspsrc location=rtsp://192.168.168.168/0 ! rtph264depay ! vpudec ! autovideosink 
+
+gst-launch filesrc location=opt/Airplay.264 typefind=true ! vpudec ! mfw_v4lsink
+gst-launch-1.0 -v  playbin uri=rtsp://192.168.168.168/0
+gst-launch-0.10
+gst-launch-1.0 rtspsrc location=rtsp://192.168.168.168/0 ! rtph264depay ! vpudec ! overlaysink
+
+网络挂载文件系统
+setenv serverip '192.168.1.199'
+setenv nfsroot '/home/z/zty/hmnew/qttest/qt4e-demo-image3'
+setenv nfsroot '/home/z/zty/hmnew/qttest/fsl-image-qt5'
+setenv nfsroot '/home/z/zty/hmnew/qttest/fsl-image-314'
+setenv nfsroot '/home/z/zty/hmnew/qttest/qt-h264'
+setenv bootcmd_mmcnet 'mmc dev ${mmcdev};run loadimage;run bootcmd_nfs;run loadfdt;bootz ${loadaddr} - ${fdt_addr}'
+setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs rootwait rw ${pridis} ${secdis} ip=${ipaddr} nfsroot=${serverip}:${nfsroot},v3,tcp'
+
+gst-launch-1.0 -v rtspsrc location=rtsp://192.168.1.168/0 ! rtph264depay ! vpudec ! autovideosink 
+gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+ffplay -rtsp_transport tcp rtsp://169.254.1.168/0
+网络查看命令
+ethtool -S eth0
+find  /sys -name eth0
+configs问题
+CONFIG_IKCONFIG=y
+CONFIG_IKCONFIG_PROC=y
+待测试
+
+echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+负载均衡
+drivers/cpufreq/cpufreq_interactive.c cpufreq_interactive_init函数。
+
+多cpu指定
+echo 2 > /proc/irq/142/smp_affinity
+
+echo 2 > /proc/irq/104/smp_affinity
+
+git remote add origingithub https://github.com/ztyhalo/256-imx.git
+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
+
+
+#undef NR_OPEN
+#define INR_OPEN_CUR 50000	/* Initial setting for nfile rlimits */
+#define INR_OPEN_MAX 50000	/* Hard limit for nfile rlimits */
+
+
+static int irq_thread(void *data)
+{
+    /* 'data' 参数包含中断描述符的指针，其中包括中断处理程序信息 */
+    struct irq_desc *desc = data;
+    struct irqaction *action = desc->action;
+
+    /* 获取线程化中断处理程序的指针 */
+    irqreturn_t (*handler)(int, void *) = action->handler;
+    irqreturn_t ret;
+
+    /* 无限循环，直到收到线程停止信号 */
+    while (!kthread_should_stop()) {
+        /* 等待硬中断处理程序唤醒本线程
+         * 当硬中断处理程序返回 IRQ_WAKE_THREAD 时，会将 'desc->irqs_queued' 计数器递增。
+         * 这个线程会等待计数器变为非零值。 */
+        wait_event_interruptible(desc->wait_for_irq, desc->irqs_queued);
+
+        /* 调用线程化中断处理程序处理中断 */
+        ret = handler(action->irq, action->dev_id);
+
+        /* 中断处理完成后，检查处理程序是否正确处理了中断 */
+        if (ret == IRQ_HANDLED) {
+            /* 如果线程化中断处理程序返回 IRQ_HANDLED，表示中断已被正确处理。
+             * 这时，我们递减 'desc->irqs_queued' 计数器。 */
+            atomic_dec(&desc->irqs_queued);
+        }
+    }
+
+    /* 线程正常退出，返回 0 */
+    return 0;
+}
+
+glpat-v-BaLxBiVKzFSexGrSVP
+
+YOCTO INIT
+DESCRIPTION = " Manager Modules"
+PR = "r21"
+
+DEPENDS = "diag dsutils qmi-framework data"
+
+S       =  "${WORKDIR}/manager"
+SRC_DIR =  "${WORKSPACE}/manager/"
+
+INITSCRIPT_NAME = "start_manager_server_le"
+INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
+
+inherit update-rc.d
+
+do_install_append() {
+    install -m 0755 ${WORKDIR}/manager/server/src/start_manager_server_le -D ${D}${sysconfdir}/init.d/start_manager_server_le
+
+}
+
+FILES_${PN} += "${base_libdir}/firmware/wlan/qca_cld"
+
+PN菜谱名称
+echo 30000 >  /proc/sys/vm/min_free_kbytes
+内存管理
+生成文件系统类型
+IMAGE_FSTYPES+=" cpio.gz cpio tar.gz cpio.gz cpio tar.gz jffs2 ext2 ext3 ext4 ubifs"
+#BB_NO_NETWORK = "1"
+
+UBI_VOLNAME = "rootfs"
+MKUBIFS_ARGS = "-F -m 2048 -e 126976 -c 784"
+#UBINIZE_ARGS = "-m 2048 -p 128KiB -s 2048 -O 2048"
+
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=10 ! queue ! rtph264depay ! vpudec ! imxg2dvideosink window-width=960 window-height=480 window-y-coord=480
+
+fw_printenv
+
+314 repo命令
+repo init -u https://gitee.com/aosta/fsl-arm-yocto-bsp.git -b nxp/imx-3.14.28-1.0.0_ga
+repo sync
+MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-fb -e fb
+
+419
+repo init --repo-url=https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -u https://github.com/nxp-imx/imx-manifest -b imx-linux-warrior -m imx-4.19.35-1.1.1.xml
+MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-fb -e fb
+
+MACHINE=imx6dlsabresd DISTRO=fsl-imx-fb source ./fsl-setup-release.sh -b fb
+m4-native
+//#elif HAVE_LIBSIGSEGV && SIGSTKSZ < 16384
+/* libsigsegv 2.6 through 2.8 have a bug where some architectures use
+   more than the Linux default of an 8k alternate stack when deciding
+   if a fault was caused by stack overflow.  */
+//# undef SIGSTKSZ
+//# define SIGSTKSZ 16384
+
+
+_MKNOD_VER _STAT_VER
+
+/usr/include/x86_64-linux-gnu/bits/stat.h 22行
+#ifndef _BITS_STAT_H
+#define _BITS_STAT_H    1
+#define _STAT_VER_KERNEL 0
+#define _STAT_VER_LINUX 1
+#define _MKNOD_VER_LINUX 0
+#define _STAT_VER _STAT_VER_LINUX
+#define _MKNOD_VER _MKNOD_VER_LINUX
+#include <bits/struct_stat.h>
+
+util-linux-native
+configure: error: raw selected, but required raw.h header file not available
+--disable-raw
+
+qemu-native syscall.c
+#include <linux/sockios.h>
+
+
+| gawk: fatal: cannot use gawk builtin `namespace' as variable name
+namespace 替换为pkg_namespace
+
+gpgme-native 
+修改src/posix-io.c
+#if defined(__sun) || defined(__FreeBSD__) || defined(__GLIBC__)
+            closefrom (fd);
+            max_fds = fd;
+#else /*!__sun */
+            while ((i = closefrom (fd)) && errno == EINTR)
+            
+nfs搭建            
+sudo systemctl  enable nfs-kernel-server
+
+ubuntu22
+setenv serverip '192.168.1.173'
+setenv nfsroot '/home/z/zty/a9/256/hm/qt4e-rootfs'
+setenv bootcmd_mmcnet 'mmc dev ${mmcdev};run loadimage;run bootcmd_nfs;run loadfdt;bootz ${loadaddr} - ${fdt_addr}'
+setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs rootwait rw ${pridis} ${secdis} ip=${ipaddr} nfsroot=${serverip}:${nfsroot},v3,tcp'
+
+
+fbcon.c fbcon_init函数
+vc->vc_y = 9;
+
+
