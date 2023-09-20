@@ -3,6 +3,9 @@ cat /sys/class/graphics/fb1/bits_per_pixel
 
 setenv pridis "video=mxcfb0:dev=ldb,if=RGB24,fbpix=RGB32"
 setenv secdis "video=mxcfb1:dev=ldb,if=RGB24,fbpix=RGB32"
+setenv pridis "video=mxcfb0:dev=ldb,if=RGB24"
+setenv secdis "video=mxcfb1:dev=ldb,if=RGB24"
+setenv pridis "video=mxcfb0:dev=ldb"
 本机内核构建
 export ARCH=arm
 export CROSS_COMPILE=/home/z/zty/a9/kernel/gcc/linux-x86/arm/gcc-linaro-7.5.0-arm-linux-gnueabi/bin/arm-linux-gnueabi-
@@ -184,7 +187,7 @@ setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs
 
 gst-launch-1.0 -v rtspsrc location=rtsp://192.168.1.168/0 ! rtph264depay ! vpudec ! autovideosink 
 gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
-gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=0  ! rtph264depay ! vpudec ! autovideosink sync=false
 ffplay -rtsp_transport tcp rtsp://169.254.1.168/0
 网络查看命令
 ethtool -S eth0
@@ -345,4 +348,30 @@ setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs
 fbcon.c fbcon_init函数
 vc->vc_y = 9;
 
+
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  tune=zerolatency ! rtph264depay ! queue max-size-buffers=0 max-size-bytes=0 max-size-time=40000 ! queue max-size-time=4000000 min-threshold-time=4000000 ! vpudec ! autovideosink sync=false
+
+
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  ! queue max-size-buffers=0 max-size-bytes=0 max-size-time=0 ! rtph264depay !  vpudec ! autovideosink sync=false
+
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  latency=2  ! rtph264depay ! queue max-size-buffers=0 max-size-bytes=0 max-size-time=900000 ! queue max-size-time=900000 min-threshold-time=400000 ! vpudec ! autovideosink sync=false
+
+ bear --library /usr/lib/x86_64-linux-gnu/bear/libexec.so make ARCH=arm CROSS_CMOPILE=arm-linux-gnueabi- zImage  -j 32
+ 
+ 
+ gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  latency=2  ! rtph264depay ! queue max-size-buffers=0 max-size-bytes=0 max-size-time=9000000  leaky=0 ! vpudec ! autovideosink sync=false
+ 
+ 
+ static int mxcfb_map_video_memory(struct fb_info *fbi)
+ framebuffer 分配物理内存
+ 
+ mxcfb_set_par->mxcfb_register->mxcfb_probe
+ 
+ udevadm info -a -n /dev/sdb 
+ 显示udev的event事件
+ 
+ ifup 会查看/var/run/ifstate的文件已确定
+ 
+ 制作文件系统时注意run tmp等临时文件的生成，挂载模式为tmpfs
+ 
 
