@@ -187,8 +187,11 @@ setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs
 
 gst-launch-1.0 -v rtspsrc location=rtsp://192.168.1.168/0 ! rtph264depay ! vpudec ! autovideosink 
 gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
-gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=0  ! rtph264depay ! vpudec ! autovideosink sync=false
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=200000 drop-on-latency=TRUE ! rtph264depay ! vpudec ! autovideosink sync=false
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8 ! rtph264depay ! vpudec ! autovideosink sync=false
+
 ffplay -rtsp_transport tcp rtsp://169.254.1.168/0
+ffplay -rtsp_transport tcp rtsp://192.168.1.168/0
 网络查看命令
 ethtool -S eth0
 find  /sys -name eth0
@@ -374,4 +377,10 @@ gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  latency=2  ! rtph264depa
  
  制作文件系统时注意run tmp等临时文件的生成，挂载模式为tmpfs
  
+ 
+ libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+ 
+ gst-launch-1.0 playbin uri=rtsp://192.168.1.108:554/id=1&type=0
+ 
+ gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8 ! rtph264depay  ! autovideosink sync=false
 
