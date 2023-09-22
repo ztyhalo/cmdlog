@@ -384,3 +384,5 @@ gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  latency=2  ! rtph264depa
  
  gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8 ! rtph264depay  ! autovideosink sync=false
 
+gst-launch-1.0 rtspsrc location='rtsp://169.254.1.168/0' ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! xvimagesink
+
