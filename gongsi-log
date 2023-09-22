@@ -386,3 +386,5 @@ gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  latency=2  ! rtph264depa
 
 gst-launch-1.0 rtspsrc location='rtsp://169.254.1.168/0' ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! xvimagesink
 
+GST_DEBUG_NO_COLOR=1 GST_DEBUG_FILE=pipeline.log GST_DEBUG=5
+
