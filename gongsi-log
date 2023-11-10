@@ -384,7 +384,315 @@ gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  latency=2  ! rtph264depa
  
  gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8 ! rtph264depay  ! autovideosink sync=false
 
+
+
 gst-launch-1.0 rtspsrc location='rtsp://169.254.1.168/0' ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! xvimagesink
 
-GST_DEBUG_NO_COLOR=1 GST_DEBUG_FILE=pipeline.log GST_DEBUG=5
+GST_DEBUG_NO_COLOR=1 GST_DEBUG_FILE=pipeline.log GST_DEBUG=5 gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8 ! rtph264depay ! vpudec ! autovideosink sync=false
+
+-pthread -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/gstreamer-0.10 -I/usr/include/libxml2  -pthread -lgstreamer-0.10 -lgobject-2.0 -lgmodule-2.0 -lxml2 -lgthread-2.0 -lrt -lglib-2.0
+
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 protocols=tcp ! rtph264depay ! vpudec ! autovideosink sync=false
+
+gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=800  ! rtph264depay ! vpudec ! autovideosink sync=false
+
+eceived new pad 'recv_rtp_src_0_403447416_96' from 'rtspsrc':
+zty parsing property latency as a guint 28!
+  printf("zty rtspsrc change state 10!\n", GST_STATE_CHANGE_NULL_TO_READY);
+  printf("zty rtspsrc change state 19!\n", GST_STATE_CHANGE_READY_TO_PAUSED);
+  printf("zty rtspsrc change state 28!\n", GST_STATE_CHANGE_PAUSED_TO_PLAYING);
+  printf("zty rtspsrc change state 35!\n", GST_STATE_CHANGE_PLAYING_TO_PAUSED);
+  printf("zty rtspsrc change state 26!\n", GST_STATE_CHANGE_PAUSED_TO_READY);
+  
+ zty rtspsrc change state 10!
+zty rtspsrc change state 19!
+zty rtspsrc change state 28!
+zty rtspsrc change state 35!
+zty rtspsrc change state 26!
+
+ {C_FLAGS (GST_MESSAGE_UNKNOWN), "GST_MESSAGE_UNKNOWN", "unknown"},
+    {C_FLAGS (GST_MESSAGE_EOS), "GST_MESSAGE_EOS", "eos"},
+    {C_FLAGS (GST_MESSAGE_ERROR), "GST_MESSAGE_ERROR", "error"},
+    {C_FLAGS (GST_MESSAGE_WARNING), "GST_MESSAGE_WARNING", "warning"},
+    {C_FLAGS (GST_MESSAGE_INFO), "GST_MESSAGE_INFO", "info"},
+    {C_FLAGS (GST_MESSAGE_TAG), "GST_MESSAGE_TAG", "tag"},
+    {C_FLAGS (GST_MESSAGE_BUFFERING), "GST_MESSAGE_BUFFERING", "buffering"},
+    {C_FLAGS (GST_MESSAGE_STATE_CHANGED), "GST_MESSAGE_STATE_CHANGED",
+        "state-changed"},
+    {C_FLAGS (GST_MESSAGE_STATE_DIRTY), "GST_MESSAGE_STATE_DIRTY",
+        "state-dirty"},
+    {C_FLAGS (GST_MESSAGE_STEP_DONE), "GST_MESSAGE_STEP_DONE", "step-done"},
+    {C_FLAGS (GST_MESSAGE_CLOCK_PROVIDE), "GST_MESSAGE_CLOCK_PROVIDE",
+        "clock-provide"},
+    {C_FLAGS (GST_MESSAGE_CLOCK_LOST), "GST_MESSAGE_CLOCK_LOST", "clock-lost"},
+    {C_FLAGS (GST_MESSAGE_NEW_CLOCK), "GST_MESSAGE_NEW_CLOCK", "new-clock"},
+    {C_FLAGS (GST_MESSAGE_STRUCTURE_CHANGE), "GST_MESSAGE_STRUCTURE_CHANGE",
+        "structure-change"},
+    {C_FLAGS (GST_MESSAGE_STREAM_STATUS), "GST_MESSAGE_STREAM_STATUS",
+        "stream-status"},
+    {C_FLAGS (GST_MESSAGE_APPLICATION), "GST_MESSAGE_APPLICATION",
+        "application"},
+    {C_FLAGS (GST_MESSAGE_ELEMENT), "GST_MESSAGE_ELEMENT", "element"},
+    {C_FLAGS (GST_MESSAGE_SEGMENT_START), "GST_MESSAGE_SEGMENT_START",
+        "segment-start"},
+    {C_FLAGS (GST_MESSAGE_SEGMENT_DONE), "GST_MESSAGE_SEGMENT_DONE",
+        "segment-done"},
+    {C_FLAGS (GST_MESSAGE_DURATION_CHANGED), "GST_MESSAGE_DURATION_CHANGED",
+        "duration-changed"},
+    {C_FLAGS (GST_MESSAGE_LATENCY), "GST_MESSAGE_LATENCY", "latency"},
+    {C_FLAGS (GST_MESSAGE_ASYNC_START), "GST_MESSAGE_ASYNC_START",
+        "async-start"},
+    {C_FLAGS (GST_MESSAGE_ASYNC_DONE), "GST_MESSAGE_ASYNC_DONE", "async-done"},
+    {C_FLAGS (GST_MESSAGE_REQUEST_STATE), "GST_MESSAGE_REQUEST_STATE",
+        "request-state"},
+    {C_FLAGS (GST_MESSAGE_STEP_START), "GST_MESSAGE_STEP_START", "step-start"},
+    {C_FLAGS (GST_MESSAGE_QOS), "GST_MESSAGE_QOS", "qos"},
+    {C_FLAGS (GST_MESSAGE_PROGRESS), "GST_MESSAGE_PROGRESS", "progress"},
+    {C_FLAGS (GST_MESSAGE_TOC), "GST_MESSAGE_TOC", "toc"},
+    {C_FLAGS (GST_MESSAGE_RESET_TIME), "GST_MESSAGE_RESET_TIME", "reset-time"},
+    {C_FLAGS (GST_MESSAGE_STREAM_START), "GST_MESSAGE_STREAM_START",
+        "stream-start"},
+    {C_FLAGS (GST_MESSAGE_NEED_CONTEXT), "GST_MESSAGE_NEED_CONTEXT",
+        "need-context"},
+    {C_FLAGS (GST_MESSAGE_HAVE_CONTEXT), "GST_MESSAGE_HAVE_CONTEXT",
+        "have-context"},
+    {C_FLAGS (GST_MESSAGE_EXTENDED), "GST_MESSAGE_EXTENDED", "extended"},
+    {C_FLAGS (GST_MESSAGE_DEVICE_ADDED), "GST_MESSAGE_DEVICE_ADDED",
+        "device-added"},
+    {C_FLAGS (GST_MESSAGE_DEVICE_REMOVED), "GST_MESSAGE_DEVICE_REMOVED",
+        "device-removed"},
+    {C_FLAGS (GST_MESSAGE_ANY), "GST_MESSAGE_ANY", "any"},
+    {0, NULL, NULL}
+GST_DEBUG=4 gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0  ! rtph264depay ! vpudec ! autovideosink sync=false
+
+zty gst base 0x769c9714f, pushdrc 0x755bc1d0f!
+zty gst base 0x76a40714f, pushdrc 0x74fba1d0f!
+zty bclass create name 0x76a40714f
+
+client-H264-PCMA.sh
+GstElementFactory
+GST_OBJECT_NAME (factory)
+g_type_name
+route add -net 192.168.127.141 netmask 255.255.255.255 gw 169.254.1.197 eth1
+
+
+ g_object_get (G_OBJECT (stream->udpsrc[0]), "used-socket", &socket, NULL);
+  printf("zty auto buffering mode, have clock %" GST_PTR_FORMAT, src->provided_clock);
+  
+  "zty gst_parse_found_pad add pad handler
+  
+  
+  rtspsrc location=rtsp://169.254.1.168/0  ! rtph264depay ! vpudec ! autovideosink sync=true
+  
+  gst_buffer_memcmp
+  
+  static gboolean
+memcmp_buffers (GstBuffer * buf1, GstBuffer * buf2)
+{
+  gsize size1, size2;
+  gboolean res;
+  GstMapInfo map;
+
+  size1 = gst_buffer_get_size (buf1);
+  size2 = gst_buffer_get_size (buf2);
+
+  if (size1 != size2)
+    return FALSE;
+
+  gst_buffer_map (buf1, &map, GST_MAP_READ);
+  res = gst_buffer_memcmp (buf2, 0, map.data, map.size) == 0;
+  gst_buffer_unmap (buf1, &map);
+
+  return res;
+}
+
+(basesrc,
+        "startup PTS: %" GST_TIME_FORMAT ", DTS %" GST_TIME_FORMAT
+        ", running_time %" GST_TIME_FORMAT, GST_TIME_ARGS (pts),
+        GST_TIME_ARGS (dts), GST_TIME_ARGS (running_time));
+gstreamer1.0-plugins-base
+
+
+GST_PAD_PARENT
+
+bitbake gstreamer1.0 -C compile
+
+bitbake gstreamer1.0-plugins-good -C compile
+bitbake gstreamer1.0-plugins-base -C compile
+
+/home/leno/yocto/a9/314/build-fb/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/gstreamer1.0-plugins-good/1.4.1-r0
+/home/leno/yocto/a9/314/build-fb/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/gstreamer1.0/1.4.1-r0
+scp  -r image/usr/* root@169.254.1.219:/usr/
+/home/z/zty/a9/xianshi/gst-vpu-c/build-gstdisp-arm_poky_qt4_8_6-Debug
+GST_PAD_PARENT (srcpad);
+
+
+tcpdump -i eth1  -w file.cap
+
+  printf("zty ssrc demux pad %s farent name %s!\n", GST_PAD_NAME(pad), GST_OBJECT_NAME(parent));
+
+		if(gst_pad_is_linked(pad))
+    {
+      GstPad * ztypad = gst_pad_get_peer(pad);
+      printf("zty pad linked name %s farent name %s!\n", GST_PAD_NAME(ztypad), GST_OBJECT_NAME(GST_PAD_PARENT(ztypad)));
+    }
+    else
+      printf("zty pad no linked!\n");
+rtph264depay
+ GST_PAD_CHAINFUNC (pad) = chain;
+ 
+ 
+ gst1.0-fsl-plugin
+tc qdisc add dev eth0 root netem loss 1%
+tc qdisc change dev eth1 root netem loss 1%
+gst_object_dispatch_properties_changed
+
+
+gst_rtp_base_depayload_chain
+
+
+gst_rtp_session_chain_recv_rtp接收数据主要添加各种时间
+gst_rtp_ssrc_demux_chain   ssrc管理
+gst_rtp_jitter_buffer_chain 存放与buffer
+
+
+gst_rtp_h264_depay_process h264数据处理
+
+zty Get codec std 6zty Get codec std 6 ramerate_n 0 framerate_d 1!
+zty nChromaInterleave 1 output_format_decided  23!
+zty nPicWidth 0 nPicHeight  0!
+zty  gst no exit!
+zty get message src name  pipeline0!
+zty get message  name  stream-start!
+[INFO]  bitstreamMode 1, chromaInterleave 1, mapType 0, tiled2LinearEnable 0
+
+gst_rtp_base_depayload_chain
+h264解码分析rtph264depay0
+decide_allocation后续研究
+gstvideodecoder.c
+ vdec_class->handle_frame = GST_DEBUG_FUNCPTR (gst_vpu_dec_handle_frame);
+gst_vpu_dec_object_decode
+gst_vpu_dec_object_decode vpu解码处理函数
+
+gst_allocator_alloc分配内存
+
+#define G_OBJECT_TYPE_NAME(object)  (g_type_name (G_OBJECT_TYPE (object)))
+
+gst_vpu_dec_object_open VPU_DecLoad 仅仅loadvpuVPU_DecLoad
+gst_vpu_dec_start->gst_vpu_dec_object_start ->VPU_DecGetVersionInfo
+					    ->VPU_DecGetWrapperVersionInfo
+					    ->VPU_DecQueryMem
+					    ->gst_vpu_allocate_internal_mem申请了两个buf->gst_vpu_alloc_phys_mem->VPU_DecGetMem
+state = STATE_ALLOCATED_INTERNAL_BUFFER
+
+gst_vpu_dec_set_format应该是收到sps和pps帧的响应函数->gst_vpu_dec_object_config ->  
+gst_vpu_dec_object_open_vpu->gst_vpu_dec_object_set_vpu_param设置参数信息
+			   ->VPU_DecOpen
+			   ->VPU_DecGetCapability
+			   ->VPU_DecConfig
+	state = STATE_OPENED
+
+gst_vpu_dec_handle_frame->gst_vpu_dec_object_decode->gst_vpu_dec_object_set_vpu_input_buf放数据
+                                                   ->VPU_DecDecodeBuf解码
+                                                   ->gst_vpu_dec_object_handle_reconfig重配->VPU_DecGetInitialInfo
+                                                                                         ->gst_vpu_dec_object_allocate_mv_buffer
+                                                   
+                                                   gst_vpu_dec_object_send_output ->gst_video_decoder_finish_frame
+
+
+
+
+VPU_DecRegisterFrameBuffer 该函数跟显示相关。
+
+
+
+
+gst_rtp_h264_depay_process gst_rtp_h264_depay_add_sps_pps
+
+
+
+
+gst_video_decoder_chain caps 会调用set_format
+
+
+VpuConvertAvccHeader();
+
+pps_id为 pic_parameter_set_id，表示当前pps的id，某个pps在码流中会被相应的slice引用。slice引用pps的方式就是在slice header中保存pps的 id。
+
+sps_id为 seq_parameter_set_id，表示当前sps的id。被pps引用，在pps中带有所引用的sps的id。
+
+
+/opt/poky/1.7/sysroots/cortexa9hf-vfp-neon-poky-linux-gnueabi/usr   imx-gpu-viv
+
+gst_video_decoder_negotiate_default协商
+g_type_name_from_instance GTypeInstance
+g_type_name_from_class GTypeClass
+g_type_name GType
+
+GST_API
+GType           gst_mini_object_get_type   (void);
+
+gst_object_get_name
+
+do_alloc_buffer
+default_alloc_buffer
+
+#define GST_VIDEO_INFO_COMP_STRIDE(i,c)  GST_VIDEO_FORMAT_INFO_STRIDE((i)->finfo,(i)->stride,(c))
+#define GST_VIDEO_FORMAT_INFO_STRIDE(info,strides,comp) ((strides)[(info)->plane[comp]])
+
+    PhyMemBlock * mem_block;
+    mem_block = gst_buffer_query_phymem_block (buffer);
+
+    printf("zty mem_block phy memblk size %d vaddr 0x%x paddr 0x%x!\n", mem_block->size, mem_block->vaddr, mem_block->paddr);
+    
+    imx_video_convert_transform_frame
+    imx_g2d_do_convert
+     gst_video_sink_class_init->gst_video_sink_show_frame->调用render gst_overlay_sink_show_frame 
+gst_imx_v4l2_get_device_caps
+
+
+gst_video_filter_class_init->gst_video_filter_transform
+
+
+compositor_do_compositing_surface_list osink_object_enable_display
+
+gst_overlay_sink_change_state
+
+
+uapi/linux/将其拷贝到poky中
+imx_ipu_v4l2out_config_input
+imx_ipu_v4l2out_config_output v4l2out_config_output
+imx_ipu_v4l2out_config_rotate
+imx_ipu_v4l2_config_alpha
+
+gst_vpu_dec_open
+gst_overlay_sink_change_state ->GST_STATE_CHANGE_READY_TO_PAUSED ->
+osink_object_enable_display->init_display -> gst_imx_v4l2_open_device
+			   ->compositor_device_open打开转码设备
+			   ->create_compositor 初始化转码器 有一个线程compositor_compositing_thread
+
+gst_imx_v4l2src_create没有作用
+
+osink_object_get_compositor_dst_buffer
+osink_object_flip_compositor_dst_buffer
+
+GST_STATE_CHANGE_PAUSED_TO_PLAYING
+
+gst_overlay_sink_show_frame
+flip_display_buffer
+
+gst_base_sink_chain_unlocked->gst_video_sink_show_frame->调用render gst_overlay_sink_show_frame 
+->osink_object_update_overlay->compositor_update_surface->compositor_do_compositing_surface_list
+         ->osink_object_get_compositor_dst_buffer->get_next_display_buffer ->gst_imx_v4l2_dequeue_v4l2memblk
+         ->compositor_device_blit_surface
+	->osink_object_flip_compositor_dst_buffer->flip_display_buffer->gst_imx_v4l2_queue_v4l2memblk->imx_v4l2_do_queue_buffer
+	
+	
+	
+	
+	gst_vpu_dec_object_release_frame_buffer_to_vpu
+	g2d_device_blit_surface
+	
+	
+sudo dpkg-reconfigure lightdm
 
