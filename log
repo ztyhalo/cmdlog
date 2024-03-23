@@ -123,3 +123,5 @@ https://www.qiniu.com/qfans/qnso-32908047
 rtspsrc location=<...> ! rtph264depay ! queue max-size-buffers=0 max-size-bytes=0 max-size-time=$MAX_DELAY ! queue max-size-time=$SMALL_DELAY min-threshold-time=$DELAY ! decodebin ! autovideosink
 
 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
+
+gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false

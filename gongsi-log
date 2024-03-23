@@ -18,9 +18,10 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
 
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 5 --slave /usr/bin/g++ g++ /usr/bin/g++-5 
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 11 --slave /usr/bin/g++ g++ /usr/bin/g++-11
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9 --slave /usr/bin/g++ g++ /usr/bin/g++-9
 
 MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-fb -e fb
-
+MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-wayland -e wayland
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 27
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 31
 
@@ -187,6 +188,7 @@ setenv bootcmd_nfs 'setenv bootargs console=${console},${baudrate} root=/dev/nfs
 
 gst-launch-1.0 -v rtspsrc location=rtsp://192.168.1.168/0 ! rtph264depay ! vpudec ! autovideosink 
 gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 protocols=tcp ! rtph264depay ! vpudec ! autovideosink sync=false
 gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=200000 drop-on-latency=TRUE ! rtph264depay ! vpudec ! autovideosink sync=false
 gst-launch-1.0 rtspsrc location=rtsp://169.254.1.168/0 latency=8 ! rtph264depay ! vpudec ! autovideosink sync=false
 
@@ -298,6 +300,7 @@ repo init --repo-url=https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -u https:
 MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-fb -e fb
 
 MACHINE=imx6dlsabresd DISTRO=fsl-imx-fb source ./fsl-setup-release.sh -b fb
+MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-x11 -e x11
 m4-native
 //#elif HAVE_LIBSIGSEGV && SIGSTKSZ < 16384
 /* libsigsegv 2.6 through 2.8 have a bug where some architectures use
@@ -322,6 +325,7 @@ _MKNOD_VER _STAT_VER
 util-linux-native
 configure: error: raw selected, but required raw.h header file not available
 --disable-raw
+#include <sys/sysmacros.h>
 
 qemu-native syscall.c
 #include <linux/sockios.h>
@@ -695,4 +699,110 @@ gst_base_sink_chain_unlocked->gst_video_sink_show_frame->调用render gst_overla
 	
 	
 sudo dpkg-reconfigure lightdm
+
+修改网络透传问题。
+net.ipv4.conf.eth1.arp_ignore = 1
+cat /proc/sys/net/ipv4/conf/eth1/arp_ignore
+setsockopt(sock_fd, SOL_SOCKET, SO_NO_CHECK, (void*)&disable, sizeof(disable)
+
+netstat -su
+cat /proc/sys/net/core/rmem_max 网络接收buf缓存
+
+pulseaudio是用户层的混合器在系统层运行pulseaudio --system需要修改
+pulse文件夹下的client.conf autospawn = no
+              system.pa load-module module-native-protocol-unix auth-anonymous=1
+              
+
+cat /proc/sys/net/ipv4/neigh/ens160/locktime
+只读
+hdparm -r0 /dev/sdd
+
+
+amixer contents 显示音频信息
+
+amixer cset numid=95,iface=MIXER,name='Right PGA Mixer Mic3L Switch' 0
+
+amixer cget numid=103,iface=MIXER,name='Left PGA Mixer Mic3L Switch'
+
+amixer cset numid=103,iface=MIXER,name='Left PGA Mixer Mic3L Switch' 1
+
+amixer cset numid=104,iface=MIXER,name='Left PGA Mixer Mic3R Switch' 0
+
+cat /sys/fsl_otp/HW_OCOTP_MAC0
+
+amixer cget numid=107,iface=MIXER,name='Left HPCOM Mux'
+
+amixer cset numid=107,iface=MIXER,name='Left HPCOM Mux' 1
+amixer cset numid=100,iface=MIXER,name='Left PGA Mixer Line1L Switch' 0
+amixer cget numid=102,iface=MIXER,name='Left PGA Mixer Line2L Switch' 1
+amixer cget numid=92,iface=MIXER,name='Right PGA Mixer Line1R Switch'
+Line1R Switch
+Left PGA Mixer Line1L Switch open
+Right PGA Mixer Line1R Switch
+
+amixer cset numid=44,iface=MIXER,name='PGA Capture Volume' 110,110
+amixer cget numid=44,iface=MIXER,name='PGA Capture Volume'
+
+qt 相关
+message($$QT_ARCH)
+contains(QT_ARCH, aarch64)
+
+git子模组同步
+git submodule update --init --recursive
+
+DISTRO=fsl-imx-x11 MACHINE=imx6dlsabresd source fsl-setup-release.sh -b build-x11
+https://wiki.phytec.com/pages/viewpage.action?pageId=173541239
+
+
+
+export QT_QWS_FONTDIR=/usr/lib/qt4x11/fonts
+export LD_LIBRARY_PATH=/usr/lib/qt4x11/lib/
+export QTDIR=/usr/lib/qt4x11/lib/
+export QTEDIR=$QTDIR
+export QT_PLUGIN_PATH=/usr/lib/qt4x11/lib/qt4/plugins
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/bin/
+export DISPLAY=:0
+meta-extsdk-toolchain                                 :1.0-r0                          
+meta-go-toolchain                                     :1.0-r0                          
+meta-toolchain                                        :1.0-r7                          
+meta-toolchain-qt                                     :1.0-r7                          
+meta-toolchain-qt5                                    :1.0-r0                          
+meta-toolchain-qte                                    :1.0-r7                          
+nativesdk-icecc-toolchain                             :0.1-r0                          
+nativesdk-packagegroup-qt-toolchain-host                  :1.0-r12                          
+nativesdk-packagegroup-qt5-toolchain-host                   :1.0-r0                          
+nativesdk-packagegroup-qte-toolchain-host                  :1.0-r12                          
+packagegroup-qt-toolchain-target                      :1.0-r0                          
+packagegroup-qt5-toolchain-target                     :1.0-r0                          
+packagegroup-qte-toolchain-target                     :1.0-r7  
+git config --global credential.helper store
+
+ignore_rlimit_data 堆限制 初步 root@imx6dlsabresd:/sys/module/kernel/parameters#位
+
+
+mkdir $(date +%Y-%m-%d_%H:%M)
+
+echo 1 > /proc/sys/kernel/panic
+kernel.panic = 10
+
+voip
+bitbake mediastreamer2 -C compile
+
+
+python () {
+    if d.getVar('LATEST_REVISIONS', True) == "1":
+        d.setVar('SRCREV', '${AUTOREV}')
+    else:
+        d.setVar('SRCREV', '28630af81fdbeed5794722c3323999ae71fb06a3')
+}
+python () {
+    print("")
+    print("mediastreamer2")
+    print(d.getVar('SRCREV', True))
+}
+
+
+ffmpeg -y  -f  image2   -i 00%d.jpg   -c:v libx264   -r 30   video1.mp4
+ffmpeg -i video2.mp4 -vcodec h264 output.h264
+
 
