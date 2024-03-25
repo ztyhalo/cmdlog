@@ -828,5 +828,7 @@ IMAGE_INSTALL += "\
 	vsftpd \
 "
 
+工具链修改meta-toolchain-qt.inc
+TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target packagegroup-fsl-gstreamer1.0 breakpad"
 
 
