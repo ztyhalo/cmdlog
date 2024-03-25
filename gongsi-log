@@ -805,4 +805,28 @@ python () {
 ffmpeg -y  -f  image2   -i 00%d.jpg   -c:v libx264   -r 30   video1.mp4
 ffmpeg -i video2.mp4 -vcodec h264 output.h264
 
+gnome-control-center
+ldd /lib/x86_64-linux-gnu/libxslt.so.1
+ll /usr/local/lib/libxml2.so.2
+ll /lib/x86_64-linux-gnu/libxml2.so.2
+cd /usr/local/lib/
+ls
+sudo mv libxml2.so.2 libxml2.so.2ffff
+sudo ln -sf /lib/x86_64-linux-gnu/libxml2.so.2 libxml2.so.2
+
+IMAGE_INSTALL += "\
+	${CORE_IMAGE_BASE_INSTALL} \
+	packagegroup-core-qt4e \
+	rsync \
+	tcpdump \
+	packagegroup-fsl-gstreamer1.0 \
+	htop \
+	packagegroup-fsl-tools-testapps \
+	openssh \
+	icu \
+	haveged \
+	vsftpd \
+"
+
+
 
