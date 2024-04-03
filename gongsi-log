@@ -779,7 +779,7 @@ git config --global credential.helper store
 
 ignore_rlimit_data 堆限制 初步 root@imx6dlsabresd:/sys/module/kernel/parameters#位
 
-
+panic 命令
 mkdir $(date +%Y-%m-%d_%H:%M)
 
 echo 1 > /proc/sys/kernel/panic
@@ -830,5 +830,11 @@ IMAGE_INSTALL += "\
 
 工具链修改meta-toolchain-qt.inc
 TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target packagegroup-fsl-gstreamer1.0 breakpad"
+
+网络丢包
+find /sys -name eth1
+cd /sys/devices/soc0/soc.0/2100000.aips-bus/21b8000.weim/net/eth1
+cd statistics
+grep . * | grep rx
 
 

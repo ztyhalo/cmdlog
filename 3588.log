@@ -1,0 +1,462 @@
+1.安装docker
+sudo apt update
+sudo apt upgrade
+安装依赖
+sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+docker的官方gpg秘钥
+ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+ 阿里
+ curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+ 
+ 添加 Docker 官方库：
+ $ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+ 阿里
+ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+ 
+  sudo apt update
+  
+  
+  
+  echo $XDG_SESSION_TYPE
+  sudo dpkg-reconfigure lightdm
+  
+  docker start b750bbbcfd88 
+## 停止一个容器
+停止容器的命令如下：
+
+```c
+docker stop <容器 ID>
+
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo service docker status
+
+docker search ubuntu
+docker pull ubuntu 
+docker images
+ docker run -tid --name ubuntu -p 23:22 ubuntu
+docker exec -ti ubuntu /bin/bash 
+
+docker ps -a，
+docker rm + 安装容器的ID
+sudo docker save -o ubuntu.zip ubuntu
+sudo docker load < ubuntu.zip
+docker start 容器id，
+
+docker exec -it e4c58958181a /bin/bash
+ /etc/gdm3/custom.conf 修改wayland
+ 
+  docker run -tid -p 10000:22 -p 10001:3389 --name lalashi --privileged=true ceshi /bin/bash
+  
+  docker run -tid --name ubuntu -p 23:22 ubuntu
+ 
+  sudo docker run -it --rm -e DISPLAY=$DISPLAY -e GDK_SCALE   -e GDK_DPI_SCALE -v /tmp/.X11-unix:/tmp/.X11-unix ubuntu-desktop
+  
+   docker run -d -p 6866:6800  -v /etc/localtime:/etc/localtime:ro   -v /tmp/.X11-unix:/tmp/.X11-unix   -e DISPLAY=unix$DISPLAY   -e GDK_SCALE   -e GDK_DPI_SCALE  --name scrapyd  willshory/scrapyd
+   
+  sudo  docker run -tid -p 3316:22 -p 5900:5900 -p 5901:5901 --name displaytest_container --privileged=true ubuntu /bin/bash
+  
+  apt-get update
+apt install -y gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal ubuntu-desktop
+
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+
+
+#!/bin/sh
+ 	 
+# Uncomment the following two lines for normal desktop:
+# unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+ 	 
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey 
+vncconfig -iconic &
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+x-window-manager &
+ 
+gnome-panel &
+gnome-settings-daemon &
+metacity &
+nautilus &
+
+成功的操作
+sudo docker run -itd --privileged=true  --name ubuntu20 -p 29:22 -p 3289:3389  ubuntu:20.04
+sudo docker exec -it ubuntu20 /bin/bash 
+
+deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse 
+apt update
+
+passwd
+apt install vim
+apt install xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
+
+apt install vnc4server 
+vncserver
+vncserver -kill :1
+vim ~/.vnc/xstartup
+xfce4-session  &
+mate-session  &
+startkde  &
+gnome-panel  &
+gnome-settings-daemon  &
+metacity  &
+gnome-terminal  &
+nautilus  &
+gnome-session  &
+
+vncserver -kill :1
+vncserver -depth 24 -geometry 1280x800 :0
+vim /etc/xrdp/xrdp.ini 
+[Xvnc]
+name=Xvnc
+lib=libvnc.so
+username=askroot  #系统用户名
+password=ask123456 #系统密码
+ip=127.0.0.1
+port=ask5900 #vncserver 端口
+service xrdp start
+arm
+# 64位的：
+docker run -it --rm -v /usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static arm64v8/ubuntu:16.04 bash
+
+# 32位的：
+docker run -it --rm -v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static arm32v7/ubuntu:16.04 bash
+执行了ubuntu20.04
+sudo docker run -it --rm -v /usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static arm64v8/ubuntu:20.04 bash
+
+portainer管理
+sudo docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+
+容器外 ：编写 Dockerfile 文件，基于arm版本的基础镜像，其它如apt-get install无须修改。
+
+创建文件 Dockerfile.arm，以示区别：
+
+ARG BUILD_FROM=arm64v8
+FROM ${BUILD_FROM}/ubuntu:16.04
+
+RUN apt-get update
+
+RUN ...
+
+
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker build -t metaverse -f Dockerfile.arm --build-arg BUILD_FROM=arm64v8 .
+
+
+
+
+假设img名字为system.img
+
+1. 解压 img
+
+simg2img system.img system.img.old
+
+2. 新建路径用于 mount：
+
+        mkdir test
+
+3. mount image：
+
+        sudo mount -t ext4 -o loop system.img.old test/
+
+这时，system.img.old 的内容会 mount 到 test 下，打开 test 查看。
+
+4. 修改 test 内容后重新打包成新的 image：
+
+        make_ext4fs -s -l 512M -a custpack custpack.img.new test
+
+5. 删除test目录前，需要 unmount：
+
+        sudo umount test -A
+
+
+
+sudo mkdir ubuntu-rootfs
+sudo tar -xvpf ubuntu-base-20.04.5-base-arm64.tar.gz -C ubuntu-rootfs
+# 拷贝文件
+sudo cp -b /etc/resolv.conf ubuntu-rootfs/etc/resolv.conf
+sudo cp /usr/bin/qemu-arm-static ubuntu-rootfs/usr/bin/
+# 修改镜像源
+sudo gedit ubuntu-rootfs/etc/apt/sources.list
+./ch-mount.sh -m ubuntu-rootfs/
+
+
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal main restricted
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal main restricted
+ 
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-updates main restricted
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-updates main restricted
+ 
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal universe
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal universe
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-updates universe
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-updates universe
+ 
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal multiverse
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-updates multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-updates multiverse
+ 
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-backports main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-backports main restricted universe multiverse
+ 
+## Uncomment the following two lines to add software from Canonical's
+## 'partner' repository.
+## This software is not part of Ubuntu, but is offered by Canonical and the
+## respective vendors as a service to Ubuntu users.
+# deb http://archive.canonical.com/ubuntu focal partner
+# deb-src http://archive.canonical.com/ubuntu focal partner
+ 
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-security main restricted
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-security main restricted
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-security universe
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-security universe
+deb http://mirrors.aliyun.com/ubuntu-ports/ focal-security multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu-ports/ focal-security multiverse
+
+
+
+
+apt install apt-utils dialog
+apt install vim sudo
+apt install bash-completion 
+apt install net-tools iputils-ping ifupdown ethtool
+apt install wireless-tools network-manager
+apt install ssh rsync udev htop rsyslog
+apt install bluetooth* bluez* blueman*
+# 可装可不装
+apt install curl
+apt install openssh-server
+apt install git
+apt install ffmpeg
+
+source /etc/bash_completion 解决tab不对齐
+apt install locales tzdata
+# 时区选择
+# Asia/Shanghai
+dpkg-reconfigure locales
+# 勾选英文和中文环境
+# en_US.UTF-8 UTF-8
+# zh_CN.UTF-8 UTF-8
+apt install ubuntu-desktop
+systemctl set-default graphical.target
+vi /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf
+# 文件内容改为如下内容
+[keyfile]
+unmanaged-devices=*,except:type:ethernet,except:type:wifi,except:type:gsm,except:type:cdma
+
+# 主机名
+echo "hn3588" > /etc/hostname
+# 主机IP地址
+echo "127.0.0.1 localhost hn3588" > /etc/hosts
+# 添加用户
+useradd -s '/bin/bash' -m -G adm,sudo user
+# 设置密码
+passwd user
+passwd root
+
+# 英文环境
+
+
+
+apt install language-pack-en-base 
+apt install language-pack-gnome-en-base 
+ 
+# 中文环境
+apt install language-pack-zh-hans-base 终端出中文
+apt install language-pack-gnome-zh-hans-base
+ 
+# 中文输入法
+apt install ibus-table-wubi ibus-pinyin ibus-sunpinyin
+
+sudo cp resize2fs.service ../ubuntu/ubuntu18/ubuntu-rootfs/lib/systemd/system/
+sudo cp resize2fs.sh ../ubuntu/ubuntu18/ubuntu-rootfs/etc/init.d/
+systemctl enable resize2fs.service
+
+./ch-mount.sh -m ubuntu-rootfs/
+./ch-mount.sh -u ubuntu-rootfs/
+./mkimage.sh ubuntu-rootfs rootfs.img
+
+sudo apt-get install python3-pip
+
+
+bitbake linux-rockchip -C compile
+sudo apt-get install xrdp
+sudo systemctl status xrdp
+
+sudo adduser xrdp ssl-cert 
+ sudo systemctl restart xrdp
+黑屏闪退
+sudo vim /etc/xrdp/startwm.sh
+unset DBUS_SESSION_BUS_ADDRESS
+unset XDG_RUNTIME_DIR
+echo "gnome-session" > ~/.xsession
+vim ~/.xsessionrc
+
+termanil
+/etc/default/locale
+
+ locale-gen
+  localectl set-locale LANG=“en_US.UTF-8”
+ 
+添加：
+
+export GNOME_SHELL_SESSION_MODE=ubuntu
+export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+
+$ D=/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+$ cat <<EOF > ~/.xsessionrc
+export GNOME_SHELL_SESSION_MODE=ubuntu
+export XDG_CURRENT_DESKTOP=ubuntu:GNOME
+export XDG_DATA_DIRS=/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+export XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg
+EOF
+
+
+visudo systemctl restart xrdp.service
+sudo systemctl restart xrdp
+  vim etc/init.d/resize2fs.sh
+  
+  #!/bin/bash -e 
+# resize filesystem mmcblk0p6
+if [ ! -e "/usr/local/boot_flag" ] ;
+then
+  echo "Resizing /dev/mmcblk0p6..."
+  resize2fs /dev/mmcblk0p6
+  touch /usr/local/boot_flag
+fi
+
+chmod +x etc/init.d/resize2fs.sh
+
+vim lib/systemd/system/resize2fs.service
+#start
+[Unit]
+Description=Setup rockchip platform environment
+Before=lightdm.service
+After=resize-helper.service
+[Service]
+Type=simple
+ExecStart=/etc/init.d/resize2fs.sh
+[Install]
+WantedBy=multi-user.target
+#end
+
+
+
+sudo mount -t nfs -o nolock,addr=172.1.10.199 172.1.10.199:/d/nfs /home/z/mnt/
+
+cat rk3399_linux_release_v2.5.1_20210301_split_dir/*firefly_split* | tar -xzv
+.repo/repo/repo sync -l
+.repo/repo/repo sync -c --no-tags  后续可以使用以下命令更新 SDK
+修改project.py
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+.repo/repo/repo start firefly --all
+
+
+[   10.175063] mali fb000000.gpu: Direct firmware load for mali_csffw.bin failed with error -2
+[   10.175078] mali fb000000.gpu: Failed to load firmware image 'mali_csffw.bin'
+
+
+
+deb https://repo.huaweicloud.com/ubuntu-ports/ bionic main restricted universe multiverse
+deb-src https://repo.huaweicloud.com/ubuntu-ports/ bionic main restricted universe multiverse
+
+deb https://repo.huaweicloud.com/ubuntu-ports/ bionic-security main restricted universe multiverse
+deb-src https://repo.huaweicloud.com/ubuntu-ports/ bionic-security main restricted universe multiverse
+
+deb https://repo.huaweicloud.com/ubuntu-ports/ bionic-updates main restricted universe multiverse
+deb-src https://repo.huaweicloud.com/ubuntu-ports/ bionic-updates main restricted universe multiverse
+
+deb https://repo.huaweicloud.com/ubuntu-ports/ bionic-backports main restricted universe multiverse
+deb-src https://repo.huaweicloud.com/ubuntu-ports/ bionic-backports main restricted universe multiverse
+
+## Not recommended
+# deb https://repo.huaweicloud.com/ubuntu-ports/ bionic-proposed main restricted universe multiverse
+# deb-src https://repo.huaweicloud.com/ubuntu-ports/ bionic-proposed main restricted universe multiverse
+
+ubuntu18 安装flask时报错
+pip install --upgrade setuptools
+error: invalid command 'bdist_wheel'
+pip3 install wheel
+can波特率设置
+ip link set can0 type can bitrate 100000 dbitrate 100000 fd on
+sudo ip link set can0 up
+
+rk3588模块加载
+模块位置：/usr/local/modules 8723du
+加载函数脚本 /usr/local/bin/wifi_bule.sh
+加载服务为usr/lib/systemd/system/wifibt.service
+安装candump
+sudo apt-get install can-utils
+
+格式化sd卡
+mkfs.ext4 -E nodiscard /dev/mmcblk1p1
+
+
+cmake .. -DENABLE_OPENH264=OFF -DENABLE_WEBRTC_AEC=OFF  -DENABLE_FFMPEG=OFF -DENABLE_CXX_WRAPPER=OFF -DENABLE_NON_FREE_CODECS=ON -DENABLE_VCARD=OFF -DENABLE_BV16=OFF -DENABLE_DOC=OFF  -DENABLE_V4L=0 -DENABLE_VPX:BOOL=OFF  -DENABLE_STATIC=ON -DENABLE_UNIT_TESTS=OFF  -DENABLE_LIME_X3DH=OFF
+
+网络生成
+sudo nmcli connection add con-name 'hndztest' ifname 'eth1' type 'ethernet' ipv4.method 'manual' ipv4.addresses "192.168.1.131/24" ipv4.gateway '192.168.1.142' ipv4.dns '114.114.114.114' ipv4.ignore-auto-dns false ipv4.dns-search google.cn
+
+sudo mount -t nfs -o nolock 192.168.1.142:/home/z/zty/256/x11guirootfs/ /mnt/
+
+
+https://objects.githubusercontent.com/github-production-release-asset-2e65be/44137852/12dadbe4-ed0f-11e5-81fe-abdbb6a36b7f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240118%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240118T025934Z&X-Amz-Expires=300&X-Amz-Signature=748212f03b93fae92e4aacbbeec6d299a67305727f8604d4a5e9988587420c05&X-Amz-SignedHeaders=host&actor_id=5865855&key_id=0&repo_id=44137852&response-content-disposition=attachment%3B%20filename%3Dcups-1.7.5-source.tar.bz2&response-content-type=application%2Foctet-stream
+
+
+
+
+sudo apt-get purge --auto-remove python3
+
+sudo apt install python-dev
+sudo apt install python3-dev
+sudo apt install python3.8-dev
+sudo apt-get install libgirepository1.0-dev 
+sudo apt-get install python-cairo
+sudo apt-get install libcairo2
+sudo apt-get install libcairo2-dev
+python3.8 -m pip install -U pycairo
+sudo python3.8 -m pip install --ignore-installed PyGObject
+
+  
+systemctl status xserver-nodm
+
+repo init --repo-url https://mirrors.tuna.tsinghua.edu.cn/git/git-repo -u https://github.com/JeffyCN/yocto-manifests.git -b kirkstone-next -m yocto.xml
+
+
+
