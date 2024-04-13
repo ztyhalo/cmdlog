@@ -836,5 +836,6 @@ find /sys -name eth1
 cd /sys/devices/soc0/soc.0/2100000.aips-bus/21b8000.weim/net/eth1
 cd statistics
 grep . * | grep rx
-
+rcu
+https://www.cnblogs.com/LoyenWang/p/12770878.html
 
