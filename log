@@ -125,3 +125,11 @@ rtspsrc location=<...> ! rtph264depay ! queue max-size-buffers=0 max-size-bytes=
 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
 
 gst-launch-1.0 rtspsrc location=rtsp://192.168.1.168/0 latency=8  ! rtph264depay ! vpudec ! autovideosink sync=false
+
+/home/z/zty/app/h264/v4l2/v4l2.h:8: error: uapi/linux/mxc_v4l2.h: No such file or directory
+In file included from ../../h264/vpudec/vpudec.h:12:0,
+                 from ../../h264/h264depay/h264depay.h:8,
+                 from ../../h264/h264depay/h264depay.cpp:2:
+../../h264/v4l2/v4l2.h:8:33: fatal error: uapi/linux/mxc_v4l2.h: No such file or directory
+ #include <uapi/linux/mxc_v4l2.h>
+                                 ^
